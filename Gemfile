@@ -25,6 +25,9 @@ gem "jbuilder"
 # Devise for authentication
 gem "devise"
 
+# Tailwind CSS
+gem "tailwindcss-rails"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -38,7 +41,7 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  # See https://guides.rubyonrails.rails applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
@@ -54,9 +57,8 @@ end
 group :development do
   # MailCatcher for local email testing
   gem "mailcatcher"
-end
+  gem "better_errors"
 
-group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
