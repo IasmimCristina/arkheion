@@ -7,7 +7,10 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
-  # Devise 
+  # Curreent user:
+  before_action :set_current_user
+
+  # Devise
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
