@@ -1,0 +1,14 @@
+
+<div class="container">
+  <h1>Tormenta20 App</h1>
+  
+  <div class="user-info">
+    <p>Autenticado(a) como: <strong><%= current_user.email %></strong></p>
+    <%= link_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-outline" %>
+  </div>
+  
+  <div class="main-content">
+    <h2>Suas fichas de personagem</h2>
+    <p>Aqui você poderá gerenciar suas fichas de personagem do Tormenta20</p>
+  </div>
+</div>
