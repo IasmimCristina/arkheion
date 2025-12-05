@@ -58,6 +58,9 @@ group :development do
   # MailCatcher for local email testing
   gem "mailcatcher"
   gem "better_errors"
+  gem "binding_of_caller"
+  gem "rails_live_reload"
+
 
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
