@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+class CharacterSkill < ApplicationRecord
+  belongs_to :character_sheet
+
+  # ===
+  enum attribute_type: {
+    strength: "strength",
+    dexterity: "dexterity",
+    constitution: "constitution",
+    intelligence: "intelligence",
+    wisdom: "wisdom",
+    charisma: "charisma"
+  }
+
+  # ====
+  validates :name, presence: true
+  validates :attribute_type, presence: true
+  validates :training_bonus, numericality: true
+  validates :other_bonus, numericality: true
+
+  # ====
+  before_save :calculate_total
+
+  # ======
+
+
+  def half_level_bonus
+    (character_sheet.character_info&.level || 1) / 2
+  end
+
+
+  def attribute_modifier
+    character_sheet.character_attributes&.send("#{attribute_type}_modifier") || 0
+  end
+
+
+  def training_bonus
+    read_attribute(:training_bonus) || 0
+  end
+
+
+  def other_bonus
+    read_attribute(:other_bonus) || 0
+  end
+
+
+  def total_bonus
+    half_level_bonus + attribute_modifier + training_bonus + other_bonus
+  end
+
+  # only trained ones?
+  def can_use?
+    !trained_only || training_bonus > 0
+  end
+
+  private
+
+  def calculate_total
+    self.total = total_bonus
+  end
+end
