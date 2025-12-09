@@ -7,7 +7,7 @@ Rails.application.configure do
   config.enable_reloading = true
 
 
-  config.middleware.insert_after ActionDispatch::Static, RailsLiveReload
+
 
 
   # Do not eager load code on boot.
