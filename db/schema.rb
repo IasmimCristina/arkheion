@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_05_130422) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_09_151721) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -97,11 +97,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_130422) do
   end
 
   create_table "character_skills", force: :cascade do |t|
-    t.string "attribute_type"
     t.bigint "character_sheet_id", null: false
     t.datetime "created_at", null: false
     t.string "name"
     t.integer "other_bonus"
+    t.string "skill_attribute"
     t.integer "total"
     t.boolean "trained_only"
     t.integer "training_bonus"

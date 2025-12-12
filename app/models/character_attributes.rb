@@ -3,7 +3,7 @@
 class CharacterAttributes < ApplicationRecord
   belongs_to :character_sheet
 
-  # =
+
   validates :strength, :dexterity, :constitution,
             :intelligence, :wisdom, :charisma,
             numericality: {
@@ -11,7 +11,7 @@ class CharacterAttributes < ApplicationRecord
               less_than_or_equal_to: 30
             }
 
-  # ====
+
   ATTRIBUTES = %w[strength dexterity constitution intelligence wisdom charisma].freeze
 
   ATTRIBUTES.each do |attr|
@@ -20,7 +20,7 @@ class CharacterAttributes < ApplicationRecord
     end
   end
 
-  # ===
+
   def max_load
     strength * 3
   end

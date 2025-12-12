@@ -8,11 +8,7 @@ module UserScoped
     validates :user, presence: true
 
 
-    default_scope -> { where(user: Current.user) if Current.user.present? }
-
-
     scope :unscoped_by_user, -> { unscope(where: :user_id) }
-
 
     before_validation :set_current_user, on: :create
   end

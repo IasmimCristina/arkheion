@@ -3,14 +3,14 @@
 class CharacterCombat < ApplicationRecord
   belongs_to :character_sheet
 
-  # =====
+
   validates :hit_points_max, :hit_points_current,
             :mana_points_max, :mana_points_current, :defense,
             numericality: { greater_than_or_equal_to: 0 }
 
   validate :current_points_not_greater_than_max
 
-  # =====
+
   def alive?
     hit_points_current > 0
   end

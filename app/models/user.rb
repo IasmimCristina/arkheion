@@ -6,10 +6,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # ==
+
   has_many :character_sheets, dependent: :destroy
 
-  # ==
+
   def display_name
     email.split("@").first.humanize
   end
