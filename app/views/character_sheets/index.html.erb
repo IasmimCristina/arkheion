@@ -1,0 +1,17 @@
+<h1 class="text-2xl font-bold mb-4">Suas Fichas de Personagem</h1>
+
+<% if @character_sheets.any? %>
+  <ul class="space-y-4">
+    <% @character_sheets.each do |sheet| %>
+      <li class="bg-gray-700 rounded-lg p-4">
+        <strong><%= sheet.character_name %></strong>
+        <span>
+          (<%= sheet.race&.humanize %> <%= sheet.character_class&.humanize %>, Nível <%= sheet.level %>)
+        </span>
+        <%= link_to "Ver detalhes", character_sheet_path(sheet), class: "ml-4 text-blue-400 bg-blue-100" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="bg-gray-50 font-bold">Você ainda não criou nenhuma ficha de personagem.</p>
+<% end %>
