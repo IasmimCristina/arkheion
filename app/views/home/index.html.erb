@@ -1,17 +1,11 @@
-
-<div class="container">
-  <h1 class="text-4xl text-red-700">Tormenta20 App</h1>
-  
-  <div class="user-info">
+<div class="container h-full mx-auto max-w-xl bg-gray-900 bg-opacity-80 rounded-xl shadow-lg p-8">
+  <h1 class="text-4xl text-red-700 font-bold mb-6 text-center">Tormenta20 App</h1>
+  <div class="user-info mb-6 text-center">
     <p>Autenticado(a) como: <span class="font-bold"><%= current_user.email %></span></p>
-    <%= link_to "Desconectar-se", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-red-700" %>
-
+    <%= link_to "Desconectar-se", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-red-700 hover:underline ml-2" %>
   </div>
-  
-  <div class="main-content">
-    <h2>Suas fichas de personagem</h2>
-<%= link_to "Ver fichas de personagem", character_sheets_path, class: "text-gray-900 bg-gray-300 hover:text-red-700 border border-gray-300" %>
-
-    <p class="text-gray-900">Aqui você poderá gerenciar suas fichas de personagem do Tormenta20</p>
+  <div class="main-content text-center">
+    <%= link_to "Ver fichas de personagem", character_sheets_path, class: "text-gray-900 bg-gray-300 hover:text-red-700 border border-gray-300 px-6 py-3 rounded-lg font-semibold transition" %>
+    <p class="text-gray-200 mt-4">Aqui você poderá gerenciar suas fichas de personagem do Tormenta20</p>
   </div>
 </div>
