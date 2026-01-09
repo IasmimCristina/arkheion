@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_09_151721) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_09_042606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -88,11 +88,21 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_09_151721) do
   end
 
   create_table "character_sheets", force: :cascade do |t|
+    t.jsonb "annotations", default: [], null: false
+    t.jsonb "attacks", default: [], null: false
     t.datetime "created_at", null: false
+    t.jsonb "equipments", default: [], null: false
+    t.jsonb "info", default: {}, null: false
     t.string "name"
     t.string "player_name"
+    t.jsonb "spells", default: [], null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["annotations"], name: "index_character_sheets_on_annotations", using: :gin
+    t.index ["attacks"], name: "index_character_sheets_on_attacks", using: :gin
+    t.index ["equipments"], name: "index_character_sheets_on_equipments", using: :gin
+    t.index ["info"], name: "index_character_sheets_on_info", using: :gin
+    t.index ["spells"], name: "index_character_sheets_on_spells", using: :gin
     t.index ["user_id"], name: "index_character_sheets_on_user_id"
   end
 
