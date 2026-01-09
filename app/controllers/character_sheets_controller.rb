@@ -13,7 +13,6 @@ def show
   if result.success?
     @processed_sheet = result.value!
   else
-    # `result.failure` contém o valor de Failure(...) (o erro)
     Rails.logger.warn("[ShowCharacterSheetAction] #{result.failure.inspect}")
     @processed_sheet = {}
     flash.now[:alert] = "Não foi possível calcular dados extras da ficha."

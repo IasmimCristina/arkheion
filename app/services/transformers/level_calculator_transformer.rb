@@ -4,7 +4,7 @@ require "dry/monads"
 
 module Transformers
   class LevelCalculatorTransformer
-    include Dry::Monads[:result]
+    extend Dry::Monads[:result]
 
     def self.call(character_sheet, processed_data)
       begin

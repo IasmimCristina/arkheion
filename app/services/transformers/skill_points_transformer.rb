@@ -4,7 +4,7 @@ require "dry/monads"
 
 module Transformers
   class SkillPointsTransformer
-    include Dry::Monads[:result]
+    extend Dry::Monads[:result]
 
     SKILL_POINTS_PER_LEVEL = 5
 

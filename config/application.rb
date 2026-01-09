@@ -36,6 +36,11 @@ module Arkheion
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # New folders:
+    config.paths.add "app/interactors", eager_load: true, autoload: true
+    config.paths.add "app/services",    eager_load: true, autoload: true
+    config.paths.add "app/utils",       eager_load: true, autoload: true
+
     # Don't generate system test files.
     config.generators.system_tests = nil
   end

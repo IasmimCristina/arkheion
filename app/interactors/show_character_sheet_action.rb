@@ -3,7 +3,7 @@
 require "dry/monads"
 
 class ShowCharacterSheetAction
-  include Dry::Monads[:result]
+  extend Dry::Monads[:result]
 
   CACHE_PREFIX = "show_character_sheet_v1"
 
@@ -11,7 +11,7 @@ class ShowCharacterSheetAction
     begin
       sheet = CharacterSheet.includes(:level_ups, :temp_modifications, :character_combat).find(character_sheet_id)
 
-      cache_key = "#{CACHE_PREFIX}:#{sheet.id}:#{sheet.updated_at.to_i}"
+      cache_key = "#{CACHE_PREFIX}:#{sheet.cache_key}"
 
       processed = Rails.cache.fetch(cache_key) do
         processed_data = {}
@@ -22,7 +22,7 @@ class ShowCharacterSheetAction
           Transformers::HitPointsTransformer
         ]
 
-        result = transformers.reduce(Success([ sheet, processed_data ])) do |acc, transformer|
+        result = transformers.reduce(Success([sheet, processed_data])) do |acc, transformer|
           if acc.failure?
             acc
           else
@@ -37,7 +37,7 @@ class ShowCharacterSheetAction
 
         result.value!.last
       end
-      # Monad use!
+
       Success(processed)
     rescue ActiveRecord::RecordNotFound
       Failure("Ficha não encontrada")
