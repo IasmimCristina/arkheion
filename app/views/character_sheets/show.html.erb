@@ -1,8 +1,7 @@
-
-<h1 class="text-2xl font-bold mb-4"><%= @character_sheet.character_name %></h1>
+<h1 class="text-2xl font-bold mb-4"><%= @character_sheet.character_name_jsonb %></h1>
 <p>
-  Raça: <%= @character_sheet.race&.humanize %><br>
-  Classe: <%= @character_sheet.character_class&.humanize %><br>
-  Nível: <%= @character_sheet.level %>
+  Raça: <%= @character_sheet.race_jsonb&.humanize %><br>
+  Classe: <%= @character_sheet.character_class_jsonb&.humanize %><br>
+  Nível: <%= @character_sheet.level_jsonb %>
 </p>
 <%= link_to "Voltar", character_sheets_path, class: "text-blue-400" %>

@@ -20,7 +20,8 @@ class CharacterSkill < ApplicationRecord
   before_save :calculate_total
 
   def half_level_bonus
-    (character_sheet.character_info&.level || 1) / 2
+    lvl = character_sheet.level_jsonb.presence || 1
+    (lvl.to_i) / 2
   end
 
   def attribute_modifier
