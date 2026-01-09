@@ -1,7 +1,77 @@
-<h1 class="text-2xl font-bold mb-4"><%= @character_sheet.character_name_jsonb %></h1>
-<p>
-  Raça: <%= @character_sheet.race_jsonb&.humanize %><br>
-  Classe: <%= @character_sheet.character_class_jsonb&.humanize %><br>
-  Nível: <%= @character_sheet.level_jsonb %>
-</p>
-<%= link_to "Voltar", character_sheets_path, class: "text-blue-400" %>
+<div class="max-w-4xl w-full mx-auto bg-gray-900 rounded-lg shadow-lg p-6 sm:p-8">
+  <header class="flex items-start justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-red-600 to-pink-500 flex items-center justify-center text-xl font-bold text-white">
+        <%= (@character_sheet.character_name_jsonb || @character_sheet.name).first&.upcase %>
+      </div>
+      <div>
+        <h1 class="text-2xl font-extrabold leading-tight"><%= @character_sheet.character_name_jsonb.presence || @character_sheet.name %></h1>
+        <p class="text-sm text-gray-300">Ficha de <span class="font-medium"><%= @character_sheet.player_name %></span></p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="text-right text-sm text-gray-300">
+        <div>Raça: <span class="font-semibold text-amber-50"><%= @character_sheet.race_jsonb&.humanize.presence || '-' %></span></div>
+        <div>Classe: <span class="font-semibold text-amber-50"><%= @character_sheet.character_class_jsonb&.humanize.presence || '-' %></span></div>
+        <div>Nível: <span class="font-semibold text-amber-50"><%= @character_sheet.level_jsonb.presence || '-' %></span></div>
+      </div>
+
+      <div data-controller="character-details" class="ml-4">
+        <button
+          data-action="click->character-details#toggle"
+          data-character-details-target="btn"
+          class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-900 px-3 py-1.5 rounded-md font-medium shadow-sm transition"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>Mostrar detalhes</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left: quick summary -->
+    <section class="lg:col-span-1 bg-gray-800 rounded-md p-4">
+      <h2 class="text-sm font-semibold text-gray-300 mb-3">Resumo</h2>
+
+      <dl class="space-y-3 text-sm text-gray-200">
+        <div class="flex justify-between">
+          <dt class="text-gray-400">Origem</dt>
+          <dd class="font-medium"><%= @character_sheet.origin_jsonb.presence || '-' %></dd>
+        </div>
+
+        <div class="flex justify-between">
+          <dt class="text-gray-400">Divindade</dt>
+          <dd class="font-medium"><%= @character_sheet.divinity_jsonb.presence || '-' %></dd>
+        </div>
+
+        <div class="pt-3 border-t border-gray-700">
+          <dt class="text-gray-400">HP / Mana</dt>
+          <dd class="font-medium">
+            <% if @character_sheet.character_combat %>
+              <%= @character_sheet.character_combat.hit_points_current %> / <%= @character_sheet.character_combat.hit_points_max %>
+              &nbsp;•&nbsp;
+              <%= @character_sheet.character_combat.mana_points_current %> / <%= @character_sheet.character_combat.mana_points_max %>
+            <% else %>
+              -
+            <% end %>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Middle + Right: collapsible full data -->
+    <section class="lg:col-span-2">
+      <div class="bg-gray-800 rounded-md p-4" data-character-details-target="details">
+        <%= render partial: "character_sheets/full_data", locals: { sheet: @character_sheet } %>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-6 flex justify-end">
+    <%= link_to "Voltar", character_sheets_path, class: "text-sm text-gray-300 hover:text-amber-300" %>
+  </footer>
+</div>

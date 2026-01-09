@@ -1,0 +1,132 @@
+<div class="space-y-4 text-sm text-gray-200">
+  <section>
+    <h3 class="font-semibold">Informações básicas</h3>
+    <p>Nome: <strong><%= sheet.character_name_jsonb.presence || sheet.name %></strong></p>
+    <p>Origem: <%= sheet.origin_jsonb.presence || "-" %></p>
+    <p>Raça: <%= sheet.race_jsonb.presence || "-" %></p>
+    <p>Classe: <%= sheet.character_class_jsonb.presence || "-" %></p>
+    <p>Nível: <%= sheet.level_jsonb.presence || "-" %></p>
+    <p>Divindade: <%= sheet.divinity_jsonb.presence || "-" %></p>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Atributos</h3>
+    <% if sheet.character_attributes %>
+      <ul class="grid grid-cols-3 gap-2">
+        <li>Força: <%= sheet.character_attributes.strength %></li>
+        <li>Destreza: <%= sheet.character_attributes.dexterity %></li>
+        <li>Constituição: <%= sheet.character_attributes.constitution %></li>
+        <li>Inteligência: <%= sheet.character_attributes.intelligence %></li>
+        <li>Sabedoria: <%= sheet.character_attributes.wisdom %></li>
+        <li>Carisma: <%= sheet.character_attributes.charisma %></li>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem atributos cadastrados.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Combate</h3>
+    <% if sheet.character_combat %>
+      <p>HP: <%= sheet.character_combat.hit_points_current %> / <%= sheet.character_combat.hit_points_max %></p>
+      <p>Mana: <%= sheet.character_combat.mana_points_current %> / <%= sheet.character_combat.mana_points_max %></p>
+      <p>Defesa total: <%= sheet.character_combat.total_defense %></p>
+    <% else %>
+      <p class="text-gray-400">Sem informações de combate.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Perícias</h3>
+    <% if sheet.character_skills.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.character_skills.each do |sk| %>
+          <li><%= sk.name %> — bônus total: <%= sk.total %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem perícias cadastradas.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Equipamentos (tabela)</h3>
+    <% if sheet.character_equipments.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.character_equipments.each do |eq| %>
+          <li><%= eq.name %> — x<%= eq.quantity %> (peso total: <%= eq.total_weight %>)</li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem equipamentos em tabela.</p>
+    <% end %>
+
+    <h4 class="mt-2 font-medium">Equipamentos (JSONB)</h4>
+    <% if sheet.equipment_list_jsonb.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.equipment_list_jsonb.each do |item| %>
+          <li><%= item %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem equipamentos em JSONB.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Ataques</h3>
+    <% if sheet.character_attacks.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.character_attacks.each do |atk| %>
+          <li><%= atk.full_description %></li>
+        <% end %>
+      </ul>
+    <% elsif sheet.attack_list_jsonb.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.attack_list_jsonb.each do |atk| %>
+          <li><%= atk %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem ataques.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Magias</h3>
+    <% if sheet.character_spells.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.character_spells.each do |sp| %>
+          <li><%= sp.full_description %></li>
+        <% end %>
+      </ul>
+    <% elsif sheet.spell_list_jsonb.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.spell_list_jsonb.each do |sp| %>
+          <li><%= sp %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem magias.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3 class="font-semibold">Anotações</h3>
+    <% if sheet.annotations.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.annotations.each do |a| %>
+          <li>[<%= a.category %>] <%= a.content %></li>
+        <% end %>
+      </ul>
+    <% elsif sheet.annotation_list_jsonb.any? %>
+      <ul class="list-disc pl-5">
+        <% sheet.annotation_list_jsonb.each do |a| %>
+          <li><%= a %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-400">Sem anotações.</p>
+    <% end %>
+  </section>
+</div>
