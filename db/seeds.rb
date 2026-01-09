@@ -5,14 +5,34 @@ iasmim = User.find_or_create_by!(email: "iasmim@arkheion.com") do |u|
   u.password = "123456"
   u.password_confirmation = "123456"
 end
+puts "Creating users..."
+iasmim = User.find_or_create_by!(email: "iasmim@arkheion.com") do |u|
+  u.password = "123456"
+  u.password_confirmation = "123456"
+end
 
+samuel = User.find_or_create_by!(email: "samuel@arkheion.com") do |u|
+  u.password = "123456"
+  u.password_confirmation = "123456"
+end
 samuel = User.find_or_create_by!(email: "samuel@arkheion.com") do |u|
   u.password = "123456"
   u.password_confirmation = "123456"
 end
 
 puts "Users created: #{User.count}"
+puts "Users created: #{User.count}"
 
+def calculate_combat_stats(level, class_key, constitution)
+  base_hp = case class_key
+            when "inventor" then 6
+            when "clerigo" then 8
+            when "guerreiro", "lutador" then 10
+            else 6
+            end
+  hit_points = base_hp * [level.to_i, 1].max + constitution
+  mana_points = [level.to_i * 2, 0].max
+  { hit_points: hit_points, mana_points: mana_points }
 def calculate_combat_stats(level, class_key, constitution)
   base_hp = case class_key
             when "inventor" then 6
@@ -26,7 +46,26 @@ def calculate_combat_stats(level, class_key, constitution)
 end
 
 puts "Creating character sheets..."
+puts "Creating character sheets..."
 
+# Exemplo: Elliot Alderson
+elliot = iasmim.character_sheets.find_or_create_by!(name: "elliot_alderson") do |cs|
+  cs.player_name = "Iasmim"
+  cs.info = {
+    "character_name_jsonb" => "Elliot Alderson",
+    "race_jsonb" => "lefou",
+    "origin_jsonb" => "valkaria",
+    "character_class_jsonb" => "inventor",
+    "level_jsonb" => 13,
+    "divinity_jsonb" => nil
+  }
+  cs.equipments = []
+  cs.spells = []
+  cs.attacks = []
+  cs.annotations = []
+end
+
+elliot.create_character_attributes!(
 # Exemplo: Elliot Alderson
 elliot = iasmim.character_sheets.find_or_create_by!(name: "elliot_alderson") do |cs|
   cs.player_name = "Iasmim"
@@ -59,12 +98,21 @@ elliot.create_character_combat!(
   hit_points_current: stats[:hit_points],
   mana_points_max: stats[:mana_points],
   mana_points_current: stats[:mana_points],
+) unless elliot.character_attributes
+
+stats = calculate_combat_stats(elliot.level_jsonb.to_i, elliot.character_class_jsonb, elliot.character_attributes.constitution)
+elliot.create_character_combat!(
+  hit_points_max: stats[:hit_points],
+  hit_points_current: stats[:hit_points],
+  mana_points_max: stats[:mana_points],
+  mana_points_current: stats[:mana_points],
   defense: 18,
   armor_bonus: 4,
   shield_bonus: 0
 ) unless elliot.character_combat
+) unless elliot.character_combat
 
-# Darlene Alderson (exemple
+
 darlene = iasmim.character_sheets.find_or_create_by!(name: "darlene_alderson") do |cs|
   cs.player_name = "Iasmim"
   cs.info = {
@@ -96,9 +144,18 @@ darlene.create_character_combat!(
   hit_points_current: stats[:hit_points],
   mana_points_max: stats[:mana_points],
   mana_points_current: stats[:mana_points],
+) unless darlene.character_attributes
+
+stats = calculate_combat_stats(darlene.level_jsonb.to_i, darlene.character_class_jsonb, darlene.character_attributes.constitution)
+darlene.create_character_combat!(
+  hit_points_max: stats[:hit_points],
+  hit_points_current: stats[:hit_points],
+  mana_points_max: stats[:mana_points],
+  mana_points_current: stats[:mana_points],
   defense: 14,
   armor_bonus: 1,
   shield_bonus: 0
+) unless darlene.character_combat
 ) unless darlene.character_combat
 
 # Angela (exemplo)
@@ -121,9 +178,39 @@ end
 angela.create_character_attributes!(
   strength: 8,
   dexterity: 12,
+# Angela (exemplo)
+angela = samuel.character_sheets.find_or_create_by!(name: "angela_moss") do |cs|
+  cs.player_name = "Samuel"
+  cs.info = {
+    "character_name_jsonb" => "Angela Moss",
+    "race_jsonb" => "elfo",
+    "origin_jsonb" => "aventura",
+    "character_class_jsonb" => "clerigo",
+    "level_jsonb" => 10,
+    "divinity_jsonb" => "deus_exemplo"
+  }
+  cs.equipments = []
+  cs.spells = []
+  cs.attacks = []
+  cs.annotations = []
+end
+
+angela.create_character_attributes!(
+  strength: 8,
+  dexterity: 12,
   constitution: 12,
   intelligence: 14,
+  intelligence: 14,
   wisdom: 18,
+  charisma: 10
+) unless angela.character_attributes
+
+stats = calculate_combat_stats(angela.level_jsonb.to_i, angela.character_class_jsonb, angela.character_attributes.constitution)
+angela.create_character_combat!(
+  hit_points_max: stats[:hit_points],
+  hit_points_current: stats[:hit_points],
+  mana_points_max: stats[:mana_points],
+  mana_points_current: stats[:mana_points],
   charisma: 10
 ) unless angela.character_attributes
 
@@ -137,5 +224,7 @@ angela.create_character_combat!(
   armor_bonus: 0,
   shield_bonus: 0
 ) unless angela.character_combat
+) unless angela.character_combat
 
+puts "Seeds finished."
 puts "Seeds finished."
