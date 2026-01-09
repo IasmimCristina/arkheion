@@ -12,6 +12,8 @@ class CharacterSheet < ApplicationRecord
   has_many :character_attacks, dependent: :destroy
   has_many :character_spells, dependent: :destroy
   has_many :annotations, dependent: :destroy
+    has_many :level_ups, dependent: :destroy
+  has_many :temp_modifications, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { scope: :user_id }
   validates :player_name, presence: true

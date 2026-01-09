@@ -110,6 +110,14 @@ GEM
       responders
       warden (~> 1.2.3)
     drb (2.2.3)
+    dry-core (1.2.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-monads (1.9.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
     erb (6.0.0)
     erubi (1.13.1)
     eventmachine (1.2.7)
@@ -418,6 +426,7 @@ DEPENDENCIES
   bundler-audit
   debug
   devise
+  dry-monads (~> 1.9)
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
