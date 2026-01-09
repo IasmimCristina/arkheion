@@ -9,20 +9,23 @@
         <p class="text-sm text-gray-300">Ficha de <span class="font-medium"><%= @character_sheet.player_name %></span></p>
       </div>
     </div>
-
     <div class="flex items-center gap-3">
       <div class="text-right text-sm text-gray-300">
         <div>Raça: <span class="font-semibold text-amber-50"><%= @character_sheet.race_jsonb&.humanize.presence || '-' %></span></div>
         <div>Classe: <span class="font-semibold text-amber-50"><%= @character_sheet.character_class_jsonb&.humanize.presence || '-' %></span></div>
-        <div>Nível: <span class="font-semibold text-amber-50"><%= @character_sheet.level_jsonb.presence || '-' %></span></div>
+<p>Nível: <%= (@processed_sheet && @processed_sheet[:level]) || sheet.level_jsonb.presence || "-" %></p>
       </div>
 
+    <%= render partial: "character_sheets/level_up_form", locals: { sheet: @character_sheet } %>
+
+
       <div data-controller="character-details" class="ml-4">
+       
         <button
           data-action="click->character-details#toggle"
           data-character-details-target="btn"
           class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-900 px-3 py-1.5 rounded-md font-medium shadow-sm transition"
-        >
+          >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
@@ -31,23 +34,19 @@
       </div>
     </div>
   </header>
-
   <main class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Left: quick summary -->
     <section class="lg:col-span-1 bg-gray-800 rounded-md p-4">
       <h2 class="text-sm font-semibold text-gray-300 mb-3">Resumo</h2>
-
       <dl class="space-y-3 text-sm text-gray-200">
         <div class="flex justify-between">
           <dt class="text-gray-400">Origem</dt>
           <dd class="font-medium"><%= @character_sheet.origin_jsonb.presence || '-' %></dd>
         </div>
-
         <div class="flex justify-between">
           <dt class="text-gray-400">Divindade</dt>
           <dd class="font-medium"><%= @character_sheet.divinity_jsonb.presence || '-' %></dd>
         </div>
-
         <div class="pt-3 border-t border-gray-700">
           <dt class="text-gray-400">HP / Mana</dt>
           <dd class="font-medium">
@@ -62,7 +61,6 @@
         </div>
       </dl>
     </section>
-
     <!-- Middle + Right: collapsible full data -->
     <section class="lg:col-span-2">
       <div class="bg-gray-800 rounded-md p-4" data-character-details-target="details">
@@ -70,7 +68,6 @@
       </div>
     </section>
   </main>
-
   <footer class="mt-6 flex justify-end">
     <%= link_to "Voltar", character_sheets_path, class: "text-sm text-gray-300 hover:text-amber-300" %>
   </footer>

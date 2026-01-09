@@ -41,6 +41,9 @@ module Arkheion
     config.paths.add "app/services",    eager_load: true, autoload: true
     config.paths.add "app/utils",       eager_load: true, autoload: true
 
+    config.autoload_paths << Rails.root.join("app/utils")
+    config.eager_load_paths << Rails.root.join("app/utils")
+
     # Don't generate system test files.
     config.generators.system_tests = nil
   end

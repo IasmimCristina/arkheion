@@ -1,15 +1,26 @@
-<% if @character_sheets.any? %>
-  <ul class="space-y-4">
-    <% @character_sheets.each do |sheet| %>
-      <li class="bg-gray-700 rounded-lg p-4">
-        <strong><%= sheet.character_name_jsonb %></strong>
-        <span>
-          (<%= sheet.race_jsonb&.humanize %> <%= sheet.character_class_jsonb&.humanize %>, Nível <%= sheet.level_jsonb %>)
-        </span>
-        <%= link_to "Ver detalhes", character_sheet_path(sheet), class: "ml-4 text-blue-400 hover:text-blue-300" %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p class="bg-gray-700 p-4 rounded-lg">Você ainda não criou nenhuma ficha de personagem.</p>
-<% end %>
+<div class="max-w-4xl w-full mx-auto bg-gray-900 rounded-lg shadow-lg p-6 sm:p-8">
+  <header class="mb-4">
+    <h2 class="text-2xl font-bold text-amber-400">Suas fichas</h2>
+  </header>
+
+  <% if @character_sheets.any? %>
+    <ul class="space-y-4">
+      <% @character_sheets.each do |sheet| %>
+        <li class="bg-gray-800 rounded-lg p-4 flex items-center justify-between">
+          <div>
+            <strong class="text-gray-100"><%= sheet.character_name_jsonb.presence || sheet.name %></strong>
+            <div class="text-sm text-gray-300">
+              <%= sheet.race_jsonb&.humanize %> • <%= sheet.character_class_jsonb&.humanize %> • Nível <%= sheet.level_jsonb %>
+            </div>
+          </div>
+
+          <div>
+            <%= link_to "Ver detalhes", character_sheet_path(sheet), class: "ml-4 text-amber-300 hover:text-amber-200 font-medium" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="bg-gray-800 p-4 rounded-lg text-gray-200">Você ainda não criou nenhuma ficha de personagem.</p>
+  <% end %>
+</div>

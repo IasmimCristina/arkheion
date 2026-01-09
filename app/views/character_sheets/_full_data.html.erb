@@ -5,10 +5,9 @@
     <p>Origem: <%= sheet.origin_jsonb.presence || "-" %></p>
     <p>Raça: <%= sheet.race_jsonb.presence || "-" %></p>
     <p>Classe: <%= sheet.character_class_jsonb.presence || "-" %></p>
-    <p>Nível: <%= sheet.level_jsonb.presence || "-" %></p>
+    <p>Nível: <%= (@processed_sheet && @processed_sheet[:level]) || sheet.level_jsonb.presence || "-" %></p>
     <p>Divindade: <%= sheet.divinity_jsonb.presence || "-" %></p>
   </section>
-
   <section>
     <h3 class="font-semibold">Atributos</h3>
     <% if sheet.character_attributes %>
@@ -24,7 +23,6 @@
       <p class="text-gray-400">Sem atributos cadastrados.</p>
     <% end %>
   </section>
-
   <section>
     <h3 class="font-semibold">Combate</h3>
     <% if sheet.character_combat %>
@@ -35,7 +33,6 @@
       <p class="text-gray-400">Sem informações de combate.</p>
     <% end %>
   </section>
-
   <section>
     <h3 class="font-semibold">Perícias</h3>
     <% if sheet.character_skills.any? %>
@@ -48,7 +45,6 @@
       <p class="text-gray-400">Sem perícias cadastradas.</p>
     <% end %>
   </section>
-
   <section>
     <h3 class="font-semibold">Equipamentos (tabela)</h3>
     <% if sheet.character_equipments.any? %>
@@ -60,7 +56,6 @@
     <% else %>
       <p class="text-gray-400">Sem equipamentos em tabela.</p>
     <% end %>
-
     <h4 class="mt-2 font-medium">Equipamentos (JSONB)</h4>
     <% if sheet.equipment_list_jsonb.any? %>
       <ul class="list-disc pl-5">
@@ -72,7 +67,6 @@
       <p class="text-gray-400">Sem equipamentos em JSONB.</p>
     <% end %>
   </section>
-
   <section>
     <h3 class="font-semibold">Ataques</h3>
     <% if sheet.character_attacks.any? %>
@@ -91,7 +85,6 @@
       <p class="text-gray-400">Sem ataques.</p>
     <% end %>
   </section>
-
   <section>
     <h3 class="font-semibold">Magias</h3>
     <% if sheet.character_spells.any? %>
@@ -110,7 +103,6 @@
       <p class="text-gray-400">Sem magias.</p>
     <% end %>
   </section>
-
   <section>
     <h3 class="font-semibold">Anotações</h3>
     <% if sheet.annotations.any? %>

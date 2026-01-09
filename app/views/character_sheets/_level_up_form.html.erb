@@ -1,0 +1,45 @@
+<div data-controller="level-up">
+  <button
+    type="button"
+    data-action="click->level-up#toggle"
+    class="inline-flex items-center gap-2 bg-amber-500 text-gray-900 px-3 py-1.5 rounded font-semibold hover:bg-amber-400"
+    >
+    Level Up
+  </button>
+  <div data-level-up-target="modal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" data-action="click->level-up#toggle"></div>
+    <!-- Dialog -->
+    <div
+      data-level-up-target="dialog"
+      data-action="click->level-up#stop"
+      class="relative z-10 w-full max-w-md mx-4 bg-gray-900 rounded-lg shadow-lg p-6"
+      role="dialog"
+      aria-modal="true"
+      >
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-100">Aplicar Level Up</h3>
+        <button type="button" data-action="click->level-up#close" class="text-gray-300 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <%= form_with model: [sheet, LevelUp.new], local: true, class: "space-y-4" do |f| %>
+        <div>
+          <%= f.label :class, "Classe (opcional)", class: "block text-sm text-gray-300 mb-1" %>
+          <% options = ClassData::CLASS_INFORMATION.keys.map { |k| [k.humanize, k] } %>
+          <% selected_class = sheet.character_class_jsonb.presence %>
+          <%= f.select :class,
+             class_options_for_select(selected_class),
+             { include_blank: "Manter classe atual" },
+             class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm text-gray-100" %>
+        </div>
+        <div>
+          <%= f.label :delta_hp, "HP temporário (opcional)", class: "block text-sm text-gray-300 mb-1" %>
+          <%= f.number_field :delta_hp, step: 1, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm text-gray-100" %>
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" data-action="click->level-up#close" class="px-3 py-2 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Cancelar</button>
+          <%= f.submit "Aplicar", class: "px-4 py-2 bg-amber-500 text-gray-900 rounded hover:bg-amber-400" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
