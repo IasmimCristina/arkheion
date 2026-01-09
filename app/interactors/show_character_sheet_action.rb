@@ -5,38 +5,32 @@ require "dry/monads"
 class ShowCharacterSheetAction
   extend Dry::Monads[:result]
 
-  CACHE_PREFIX = "show_character_sheet_v1"
-
   def self.call(character_sheet_id)
     begin
       sheet = CharacterSheet.includes(:level_ups, :temp_modifications, :character_combat).find(character_sheet_id)
 
-      cache_key = "#{CACHE_PREFIX}:#{sheet.cache_key}"
+      processed_data = {}
 
-      processed = Rails.cache.fetch(cache_key) do
-        processed_data = {}
+      transformers = [
+        Transformers::LevelCalculatorTransformer,
+        Transformers::SkillPointsTransformer,
+        Transformers::HitPointsTransformer
+      ]
 
-        transformers = [
-          Transformers::LevelCalculatorTransformer,
-          Transformers::SkillPointsTransformer,
-          Transformers::HitPointsTransformer
-        ]
-
-        result = transformers.reduce(Success([sheet, processed_data])) do |acc, transformer|
-          if acc.failure?
-            acc
-          else
-            s, data = acc.value!
-            transformer.call(s, data)
-          end
+      result = transformers.reduce(Success([ sheet, processed_data ])) do |acc, transformer|
+        if acc.failure?
+          acc
+        else
+          s, data = acc.value!
+          transformer.call(s, data)
         end
-
-        if result.failure?
-          raise result.failure
-        end
-
-        result.value!.last
       end
+
+      if result.failure?
+        raise result.failure
+      end
+
+      processed = result.value!.last
 
       Success(processed)
     rescue ActiveRecord::RecordNotFound

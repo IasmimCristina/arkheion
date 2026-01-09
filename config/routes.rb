@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  resources :character_sheets, only: [ :index, :show ]
+  resources :character_sheets, only: [ :index, :show ] do
+    resources :level_ups, only: [:create]
+  end
 end
